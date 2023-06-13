@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import Banner from "../components/home/Banner";
-import withNavbar from "../withNavBar";
+import Banner from "../../components/Banner";
+import withNavbar from "../../withNavBar";
 
 const Home = () => {
   return (

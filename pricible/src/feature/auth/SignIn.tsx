@@ -1,19 +1,45 @@
 import {
   Box,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Stack,
   Typography,
   useTheme,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import AppIcon from "../components/AppIcon";
-import AppButton from "../components/general/AppButton";
-import AppTextField from "../components/general/AppTextField";
-import withIllustration from "../withIllustration";
+import { Link, useNavigate } from "react-router-dom";
+import AppIcon from "../../components/AppIcon";
+import AppButton from "../../components/AppButton";
+import AppTextField from "../../components/AppTextField";
+import withIllustration from "../../withIllustration";
+import { useState } from "react";
+import { useAuth } from "./useAuth";
+import useAuthStore from "../../stores/auth";
+import { toastError, toastSuccess } from "../../notification";
 
 const SignIn = () => {
   const theme = useTheme();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const { login, loading } = useAuth();
+  const { setUser } = useAuthStore((state) => state);
+
+  const handleSubmit = async () => {
+    await login({ email: email, password: password })
+      .then((user) => {
+        setUser(user);
+        toastSuccess("Đăng nhập thành công");
+        navigate("/");
+      })
+      .catch((error) => {
+        toastError(error);
+      });
+  };
+
+  if (loading) return <CircularProgress size={18} />;
+
   return (
     <Stack gap="40px" width="60%" alignItems="center" textAlign="center">
       <AppIcon size={40} marginBottom="-10px" />
@@ -27,15 +53,20 @@ const SignIn = () => {
       </Stack>
       <Stack gap="16px" width="100%">
         <AppTextField
+          value={email}
           fullWidth
           placeholder="Email"
           backgroundColor={theme.palette.primary.light}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Stack gap="8px">
           <AppTextField
+            value={password}
             fullWidth
-            placeholder="Password"
+            placeholder="Mật khẩu"
+            type="password"
             backgroundColor={theme.palette.primary.light}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Box
             display="flex"
@@ -48,7 +79,7 @@ const SignIn = () => {
             <Box>
               <FormControlLabel
                 control={<Checkbox size="small" sx={{ padding: "4px" }} />}
-                label="Nho mat khau"
+                label="Nhớ mật khẩu"
                 componentsProps={{
                   typography: {
                     fontSize: "14px",
@@ -57,7 +88,7 @@ const SignIn = () => {
                 sx={{ marginLeft: "0px" }}
               />
             </Box>
-            <Typography fontSize="14px">Quen mat khau?</Typography>
+            {/* <Typography fontSize="14px">Quen mat khau?</Typography> */}
           </Box>
         </Stack>
       </Stack>
@@ -66,10 +97,11 @@ const SignIn = () => {
           fullWidth
           variant="contained"
           sx={{ paddingY: "12px", fontSize: "16px" }}
+          onClick={handleSubmit}
         >
-          Sign in
+          Đăng nhập
         </AppButton>
-        <Typography fontSize="14px" color={theme.palette.text.secondary}>
+        {/* <Typography fontSize="14px" color={theme.palette.text.secondary}>
           hoac
         </Typography>
         <AppButton
@@ -78,7 +110,7 @@ const SignIn = () => {
           sx={{ color: theme.palette.primary.main }}
         >
           Sign in with google
-        </AppButton>
+        </AppButton> */}
       </Stack>
 
       <Typography
@@ -86,7 +118,7 @@ const SignIn = () => {
         color={theme.palette.text.secondary}
         textTransform="none"
       >
-        Chua co tai khoan?{" "}
+        Chưa có tài khoản?{" "}
         <Link
           to="/auth/signup"
           style={{
@@ -95,7 +127,7 @@ const SignIn = () => {
             color: theme.palette.primary.main,
           }}
         >
-          Dang ky{" "}
+          Đăng ký
         </Link>
       </Typography>
     </Stack>

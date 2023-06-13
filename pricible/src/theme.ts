@@ -12,10 +12,17 @@ const theme = createTheme({
     secondary: {
       main: "#f50057",
     },
+    success: {
+      main: "#12c71e",
+    },
+    error: {
+      main: "#c71212",
+    },
   },
   typography: {
     fontFamily: "Nunito Sans, sans-serif",
   },
+
   shape: {
     borderRadius: 12,
   },
@@ -31,6 +38,33 @@ const theme = createTheme({
       },
     },
   },
+  shadows: [
+    "none",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+  ],
 });
 
 export default theme;

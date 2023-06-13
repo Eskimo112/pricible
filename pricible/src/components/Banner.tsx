@@ -8,15 +8,20 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AppButton from "../general/AppButton";
-import AppTextField from "../general/AppTextField";
+import AppButton from "./AppButton";
+import AppTextField from "./AppTextField";
 
 export default function Banner() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
+
+  const handleSubmit = () => {
+    navigate("/search");
+  };
+
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.keyCode === 33) {
-      navigate("/search?search=" + searchValue);
+      handleSubmit();
     }
   };
 
@@ -48,19 +53,17 @@ export default function Banner() {
           tốt nhất
         </Typography>
       </Typography>
+
       <Stack direction="row" gap="24px" width="40%">
-        <FormControl
+        <AppTextField
           fullWidth
-          onSubmit={() => navigate("/search?search=" + searchValue)}
-        >
-          <AppTextField
-            fullWidth
-            placeholder={"Nhập tên sản phẩm"}
-            onKeyDown={handleEnter}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <AppButton variant="contained">Tìm kiếm</AppButton>
+          placeholder={"Nhập tên sản phẩm"}
+          onKeyDown={handleEnter}
+          onChange={handleInputChange}
+        />
+        <AppButton type="submit" onClick={handleSubmit} variant="contained">
+          Tìm kiếm
+        </AppButton>
       </Stack>
     </Stack>
   );

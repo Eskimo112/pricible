@@ -26,6 +26,9 @@ const StyledTextField = styled(TextField)<TextFieldProps & CustomProps>(
         border: `2px solid ${theme.palette.primary.main}`,
       },
     },
+    "& .Mui-error": {
+      borderColor: `${theme.palette.error.main}!important`,
+    },
   })
 );
 

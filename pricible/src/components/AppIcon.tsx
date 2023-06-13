@@ -1,6 +1,7 @@
 import { Box, BoxProps, Typography } from "@mui/material";
 import { ImSearch } from "react-icons/im";
 import { Link } from "react-router-dom";
+import theme from "../theme";
 
 type CustomProps = {
   size?: number;
@@ -15,7 +16,7 @@ export default function AppIcon({
       to="/"
       style={{
         textDecoration: "none",
-        color: "black",
+        color: theme.palette.primary.main,
       }}
     >
       <Box display="flex" alignItems="baseline" {...props}>

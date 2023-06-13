@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 
 const config = {
-  baseURL: process.env.API,
+  baseURL: "https://pricible.azurewebsites.net/api/",
   withCredentials: false,
 };
 
