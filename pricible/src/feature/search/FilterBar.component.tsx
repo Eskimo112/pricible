@@ -1,40 +1,27 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
+import LocationFilter from "./Location.filter";
+import MallFilter from "./Mall.filter";
+import PriceFilter from "./Price.filter";
+import ProviderFilter from "./Provider.filter";
 
 export default function FilterBar() {
   return (
     <Stack
       flex="0 0 25%"
       height="100vh"
-      sx={(theme) => ({ background: theme.palette.primary.light })}
-      padding="12px"
+      // sx={(theme) => ({ background: theme.palette.primary.light })}
+      padding="16px"
+      gap="12px"
     >
-      <Typography variant="h6">Bo loc tim kiem</Typography>
-      <Stack gap="10px">
-        <Typography variant="h6">Bo loc tim kiem</Typography>
-        <FormControl>
-          <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="female"
-            name="radio-buttons-group"
-          >
-            <FormControlLabel
-              value="female"
-              control={<Radio />}
-              label="Female"
-            />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
-          </RadioGroup>
-        </FormControl>
+      <Typography variant="h6" fontWeight={700}>
+        Bộ lọc tìm kiếm
+      </Typography>
+      <Divider />
+      <Stack gap="20px">
+        <ProviderFilter />
+        <PriceFilter />
+        <MallFilter />
+        <LocationFilter />
       </Stack>
     </Stack>
   );

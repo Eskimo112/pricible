@@ -4,6 +4,11 @@ import FilterBar from "./FilterBar.component";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../models/Product";
 import withNavbar from "../../withNavBar";
+import { useEffect, useState } from "react";
+import { useFilter } from "../../stores/filter";
+import { useProducts } from "./useProducts";
+import { toastError } from "../../notification";
+import SearchPagination from "./Pagination.component";
 
 const MOCK_PRODUCTS: Product[] = [
   {
@@ -94,17 +99,32 @@ const MOCK_PRODUCTS: Product[] = [
 ];
 
 const Search = () => {
-  const products = MOCK_PRODUCTS;
+  const [products, setProducts] = useState(MOCK_PRODUCTS);
+  const filterStore = useFilter();
+  const { getProducts } = useProducts();
+
+  useEffect(() => {
+    const { setFilter, ...filter } = filterStore;
+    getProducts(filter)
+      .then((products) => setProducts(products))
+      .catch((error) => toastError(error));
+  }, [filterStore]);
+
   return (
     <Stack gap="40px">
       <Banner />
 
       <Typography variant="h4" textAlign="center">
-        Ket qua tim kiem
+        Kết quả tìm kiếm
       </Typography>
       <Box display="flex" gap="50px">
         <FilterBar />
-        <Box display="flex" flex="0 0 70%">
+        <Box
+          display="flex"
+          flex="0 0 70%"
+          flexDirection="column"
+          alignItems="center"
+        >
           <Grid container spacing={2}>
             {products.map((product) => (
               <Grid item key={product.id} xs={12} sm={6} md={4} lg={3} xl={2}>
@@ -112,6 +132,7 @@ const Search = () => {
               </Grid>
             ))}
           </Grid>
+          {products.length > 12 && <SearchPagination />}
         </Box>
       </Box>
     </Stack>

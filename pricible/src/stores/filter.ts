@@ -1,41 +1,20 @@
 import { create } from "zustand";
-
-interface FilterState {
-  keyword: string | null;
-  price: {
-    from: number | null;
-    to: number | null;
-  };
-  category: string | null;
-  location: string | null;
-  provider: string | null;
-  mall: boolean | null;
-  rate: number | null;
-  pagination: {
-    currentPage: number;
-    totalPage: number;
-  };
-}
+import { Filter } from "../models/Filter";
 
 interface FilterAction {
-  setFilter: (filter: Partial<FilterState>) => void;
+  setFilter: (filter: Partial<Filter>) => void;
 }
 
-export const useFilter = create<FilterState & FilterAction>((set) => ({
+export const useFilter = create<Filter & FilterAction>((set) => ({
   keyword: null,
-  price: {
-    from: null,
-    to: null,
-  },
+  smallestPrice: null,
+  biggestPrice: null,
   category: null,
   location: null,
   provider: null,
-  mall: null,
+  isMall: null,
   rate: null,
-  pagination: {
-    currentPage: 1,
-    perPage: 10,
-    totalPage: 0,
-  },
-  setFilter: (filter) => set((state) => ({ ...state, ...filter })),
+  pageSize: 12,
+  pageIndex: 1,
+  setFilter: (newFilter) => set((state) => ({ ...state, ...newFilter })),
 }));
