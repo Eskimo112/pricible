@@ -3,9 +3,11 @@ import { styled } from "@mui/material/styles";
 
 const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   textTransform: "none",
-  padding: "8px 30px",
+  padding: "4px",
   whiteSpace: "nowrap",
-  color: "white",
+  minWidth: 0,
+  // color: "white",
+
   "& .": {},
 }));
 

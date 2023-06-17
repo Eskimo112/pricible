@@ -7,7 +7,7 @@ import ProviderFilter from "./Provider.filter";
 export default function FilterBar() {
   return (
     <Stack
-      flex="0 0 25%"
+      flex="0 0 20%"
       height="100vh"
       // sx={(theme) => ({ background: theme.palette.primary.light })}
       padding="16px"

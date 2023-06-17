@@ -53,8 +53,9 @@ export default function ProviderFilter() {
         >
           Tất cả
         </AppButton>
-        {PROVIDER.map((item) => (
+        {PROVIDER.map((item, index) => (
           <AppButton
+            key={index}
             fullWidth
             sx={(theme) => SHARED_BUTTON_SX(theme, item === provider)}
             onClick={() => handleChange(item)}

@@ -66,7 +66,7 @@ const SignUp = () => {
         toastError(error);
       });
   };
-  if (loading) return <CircularProgress size={18} />;
+  if (loading) return <CircularProgress size={40} />;
   return (
     <Stack gap="40px" width="60%" alignItems="center" textAlign="center">
       <AppIcon size={40} marginBottom="-10px" />

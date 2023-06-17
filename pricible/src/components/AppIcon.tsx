@@ -27,7 +27,11 @@ export default function AppIcon({
             transform: "rotate(70deg)",
           }}
         />
-        <Typography fontWeight={600} fontSize={`${size - 14}px`}>
+        <Typography
+          fontWeight={700}
+          fontSize={`${size - 14}px`}
+          color={props.color ?? theme.palette.primary.main}
+        >
           ricible
         </Typography>
       </Box>

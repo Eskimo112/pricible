@@ -44,8 +44,9 @@ export default function LocationFilter() {
         >
           Tất cả
         </AppButton>
-        {LOCATION.map((item) => (
+        {LOCATION.map((item, index) => (
           <AppButton
+            key={index}
             fullWidth
             sx={(theme) => SHARED_BUTTON_SX(theme, item === location)}
             onClick={() => handleChange(item)}

@@ -10,7 +10,7 @@ import { useProducts } from "./useProducts";
 import { toastError } from "../../notification";
 import SearchPagination from "./Pagination.component";
 
-const MOCK_PRODUCTS: Product[] = [
+export const MOCK_PRODUCTS: Product[] = [
   {
     id: "1",
     name: "Áo Phông Rộng Nam Nữ Tay Lỡ 1969Unisex Áo Thun Rộng Cổ Tròn Giá Rẻ In HN Trà Đá Thiết Kế Năng Động Trẻ Trung",
@@ -103,17 +103,15 @@ const Search = () => {
   const filterStore = useFilter();
   const { getProducts } = useProducts();
 
-  useEffect(() => {
-    const { setFilter, ...filter } = filterStore;
-    getProducts(filter)
-      .then((products) => setProducts(products))
-      .catch((error) => toastError(error));
-  }, [filterStore]);
+  // useEffect(() => {
+  //   const { setFilter, ...filter } = filterStore;
+  //   getProducts(filter)
+  //     .then((products) => setProducts(products))
+  //     .catch((error) => toastError(error));
+  // }, [filterStore]);
 
   return (
     <Stack gap="40px">
-      <Banner />
-
       <Typography variant="h4" textAlign="center">
         Kết quả tìm kiếm
       </Typography>

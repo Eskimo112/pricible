@@ -17,6 +17,7 @@ const theme = createTheme({
     },
     text: {
       primary: "#383838",
+      secondary: "#9198A0",
       0: "#383838",
       1: "#676E7B",
       2: "#9198A0",
@@ -44,6 +45,12 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Nunito Sans, sans-serif",
+    allVariants: {
+      color: "#383838",
+    },
+    h6: {
+      fontWeight: 700,
+    },
   },
 
   shape: {

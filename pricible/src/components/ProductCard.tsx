@@ -1,26 +1,47 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Product } from "../models/Product";
-import { formatPrice } from "../utils";
+import { calculateDiscountPercent, formatPrice } from "../utils";
 import { AiTwotoneStar } from "react-icons/ai";
 import { lazadaMallBadge, shopeeMallBadge, tikiMallBadge } from "../constant";
+import { useNavigate } from "react-router-dom";
+import TikiLogo from "../../public/tiki-logo.png";
+import LazadaLogo from "/../public/lazada-logo.jpeg";
+import ShopeeLogo from "/../public/shopee-logo.jpg";
 
 type Props = {
   product: Product;
 };
 
 export default function ProductCard({ product }: Props) {
-  //   let cardPrimaryColor = "fff";
-  //   switch (product.provider) {
-  //     case "Shopee":
-  //       cardPrimaryColor = "";
-  //       break;
-  //     case "Lazada":
-  //       cardPrimaryColor = "";
-  //       break;
-  //     case "Tiki":
-  //       cardPrimaryColor = "";
-  //       break;
-  //   }
+  const theme = useTheme();
+  const navigate = useNavigate();
+
+  const ProviderBadge = (): JSX.Element => {
+    if (!product.isMall) return <></>;
+    let logoUrl = "";
+    if (product.provider === "Tiki") {
+      logoUrl = TikiLogo;
+    }
+    if (product.provider === "Shopee") {
+      logoUrl = ShopeeLogo;
+    }
+    if (product.provider === "Lazada") {
+      logoUrl = LazadaLogo;
+    }
+    return (
+      <Box
+        component="img"
+        src={logoUrl}
+        alt=""
+        height="24px"
+        display="flex"
+        style={{
+          borderRadius: "4px",
+          objectFit: "cover",
+        }}
+      />
+    );
+  };
 
   const MallBadge = (): JSX.Element => {
     if (!product.isMall) return <></>;
@@ -39,19 +60,45 @@ export default function ProductCard({ product }: Props) {
     <Box
       height="fit-content"
       sx={(theme) => ({
-        background: theme.palette.primary.light,
-        borderRadius: "4px",
+        // background: theme.palette.primary.light,
+        borderRadius: 1,
         overflow: "hidden",
         cursor: "pointer",
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-        ":hover": {},
+        transition: "transform 0.5s ease",
+        ":hover": {
+          background: theme.palette.primary.light,
+          transform: "scale(1.05)",
+        },
       })}
       position="relative"
+      onClick={() => navigate(`/product/${product.id}`)}
     >
-      <Box position="absolute" sx={{ top: 8, right: 8 }} height="20px">
-        <MallBadge />
+      <Box width="100%" position="relative">
+        <img width="100%" src={product.imageList[0]} />
+        <Box position="absolute" sx={{ bottom: 4, right: 0 }} height="16px">
+          <MallBadge />
+        </Box>
+        <Typography
+          position="absolute"
+          component="span"
+          color="white"
+          fontWeight={600}
+          fontSize="12px"
+          padding="2px 4px"
+          sx={{
+            background: theme.palette.primary.main,
+            borderRadius: "4px",
+            top: 8,
+            right: 8,
+          }}
+        >
+          {`-${calculateDiscountPercent(
+            product.discountedPrice,
+            product.price
+          )}%`}
+        </Typography>
       </Box>
-      <img width="100%" src={product.imageList[0]} />
       <Stack padding="4px 12px" gap="12px">
         <Typography
           variant="body2"
@@ -67,8 +114,14 @@ export default function ProductCard({ product }: Props) {
         >
           {product.name}
         </Typography>
-        <Typography variant="body1" fontWeight={700}>
-          {formatPrice(product.discountedPrice)}{" "}
+        <Stack gap="4px" direction="row" alignItems="center">
+          <Typography
+            variant="body1"
+            fontWeight={700}
+            // color={(theme) => theme.palette.primary.main}
+          >
+            {formatPrice(product.discountedPrice)}{" "}
+          </Typography>
           <Typography
             marginLeft="4px"
             component="span"
@@ -79,26 +132,43 @@ export default function ProductCard({ product }: Props) {
           >
             {formatPrice(product.price)}
           </Typography>
-        </Typography>
+        </Stack>
 
         <Box display="flex" justifyContent="space-between">
           <Box display="flex">
-            <AiTwotoneStar />
-            <Typography fontSize={12}>{product.rate}</Typography>
+            <AiTwotoneStar color={theme.palette.primary.main} />
+            <Typography
+              fontSize={12}
+              color={(theme) => theme.palette.text[0]}
+              fontWeight={600}
+            >
+              {product.rate}
+            </Typography>
           </Box>
           <Typography
             fontSize={12}
             color={(theme) => theme.palette.text.secondary}
           >
-            Da ban {product.sold}
+            Đã bán{" "}
+            <Typography
+              component="span"
+              fontSize={12}
+              color={(theme) => theme.palette.text[0]}
+              fontWeight={600}
+            >
+              {product.sold}
+            </Typography>
           </Typography>
         </Box>
-        <Typography
+        <Box position="absolute" left="8px" top="8px">
+          <ProviderBadge />
+        </Box>
+        {/* <Typography
           fontSize={12}
           color={(theme) => theme.palette.text.secondary}
         >
           {product.location}
-        </Typography>
+        </Typography> */}
       </Stack>
     </Box>
   );

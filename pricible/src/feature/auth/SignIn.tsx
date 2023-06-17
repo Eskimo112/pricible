@@ -38,7 +38,7 @@ const SignIn = () => {
       });
   };
 
-  if (loading) return <CircularProgress size={18} />;
+  if (loading) return <CircularProgress size={40} />;
 
   return (
     <Stack gap="40px" width="60%" alignItems="center" textAlign="center">

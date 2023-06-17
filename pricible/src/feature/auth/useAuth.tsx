@@ -24,15 +24,15 @@ export const useAuth = () => {
   const login = async (credentials: LoginCredentials): Promise<User> => {
     try {
       setLoading(true);
-      const response: AxiosResponse<ApiResponse<User>> = await API.get(
+      const response: AxiosResponse<User> = await API.get(
         `Account/${credentials.email}/${credentials.password}`
       );
       setLoading(false);
-      return response.data.data;
+      return response.data;
     } catch (error) {
       setLoading(false);
       throw new Error(
-        "Login failed.Please contact with us to report this issue"
+        "Đăng nhập không thành công. Vui lòng kiểm tra lại tài khoản và mật khẩu"
       );
     }
   };
@@ -50,7 +50,7 @@ export const useAuth = () => {
     } catch (error) {
       setLoading(false);
       throw new Error(
-        "Sign up failed. Please contact with us to report this issue"
+        "Đăng ký không thành công. Hãy liên hệ với chúng tôi để được hỗ trợ"
       );
     }
   };

@@ -7,19 +7,18 @@ type CustomProps = {
 
 const StyledTextField = styled(TextField)<TextFieldProps & CustomProps>(
   ({ backgroundColor = "white", theme }) => ({
+    background: backgroundColor,
+    borderRadius: "12px",
+
     //   "& label.Mui-focused": {
     //     color: "red",
     //   },
-    "& .MuiInputBase-input": {
-      background: backgroundColor,
-      borderRadius: "16px",
-      padding: "16px 20px",
-    },
+    "& .MuiInputBase-input": {},
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         //   background: "white",
         border: "none",
-        borderRadius: "16px",
+        borderRadius: "12px",
       },
       // "&:hover fieldset": {},
       "&.Mui-focused fieldset": {

@@ -1,21 +1,19 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BannerLeft from "../assets/BannerLeft";
+import BannerRight from "../assets/BannerRight";
+import { useFilter } from "../stores/filter";
 import AppButton from "./AppButton";
 import AppTextField from "./AppTextField";
 
 export default function Banner() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
+  const { setFilter } = useFilter();
 
   const handleSubmit = () => {
+    setFilter({ keyword: searchValue });
     navigate("/search");
   };
 
@@ -32,39 +30,54 @@ export default function Banner() {
   };
   return (
     <Stack
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
+      direction="row"
+      justifyContent="space-around"
       alignItems="center"
-      height="280px"
+      width="100%"
       sx={(theme) => ({
-        background: theme.palette.primary.light,
+        background: theme.palette.primary[1],
       })}
       gap="24px"
     >
-      <Typography variant="h4" fontWeight={600}>
-        Tìm kiếm sản phẩm{" "}
-        <Typography
-          component="span"
-          variant="h4"
-          color={(theme) => theme.palette.primary.main}
-          fontWeight={700}
-        >
-          tốt nhất
+      <BannerLeft />
+      <Stack
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        width="40%"
+        gap="24px"
+        height="280px"
+      >
+        <Typography variant="h4" fontWeight={600}>
+          Tìm kiếm sản phẩm{" "}
+          <Typography
+            component="span"
+            variant="h4"
+            color={(theme) => theme.palette.primary.main}
+            fontWeight={700}
+          >
+            tốt nhất
+          </Typography>
         </Typography>
-      </Typography>
 
-      <Stack direction="row" gap="24px" width="40%">
-        <AppTextField
-          fullWidth
-          placeholder={"Nhập tên sản phẩm"}
-          onKeyDown={handleEnter}
-          onChange={handleInputChange}
-        />
-        <AppButton type="submit" onClick={handleSubmit} variant="contained">
-          Tìm kiếm
-        </AppButton>
+        <Stack direction="row" gap="24px" width="100%">
+          <AppTextField
+            fullWidth
+            placeholder={"Nhập tên sản phẩm"}
+            onKeyDown={handleEnter}
+            onChange={handleInputChange}
+          />
+          <AppButton
+            type="submit"
+            onClick={handleSubmit}
+            variant="contained"
+            sx={{ padding: "8px 30px" }}
+          >
+            Tìm kiếm
+          </AppButton>{" "}
+        </Stack>
       </Stack>
+      <BannerRight />
     </Stack>
   );
 }
