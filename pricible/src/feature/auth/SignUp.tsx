@@ -14,7 +14,7 @@ import withIllustration from "../../withIllustration";
 import { useState } from "react";
 import { useAuth } from "./useAuth";
 import { toastError, toastSuccess } from "../../notification";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils";
 
 const SignUp = () => {
@@ -146,6 +146,23 @@ const SignUp = () => {
           Đăng ký
         </AppButton>
       </Stack>
+      <Typography
+        fontSize="14px"
+        color={theme.palette.text.secondary}
+        textTransform="none"
+      >
+        Đã có tài khoản{" "}
+        <Link
+          to="/auth/signin"
+          style={{
+            fontWeight: "700",
+            textTransform: "none",
+            color: theme.palette.primary.main,
+          }}
+        >
+          Đăng nhập
+        </Link>
+      </Typography>
     </Stack>
   );
 };

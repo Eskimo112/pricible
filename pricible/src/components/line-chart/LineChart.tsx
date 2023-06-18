@@ -69,7 +69,7 @@ export const commonOption = (
         fontFamily: "Nunito Sans",
       },
     },
-    color: theme.palette.primary[4],
+    color: theme.palette.primary.main,
   };
 };
 
@@ -86,12 +86,16 @@ export const normalOption = (
       name: set.name,
       data: set.data,
       type: "line",
-      areaStyle: {},
+      lineStyle: {
+        width: 4,
+      },
+      // areaStyle: {},
       emphasis: {
         focus: "series",
       },
-      //symbol: 'circle',
-      symbolSize: 6,
+      smooth: true,
+      symbol: "circle",
+      symbolSize: 10,
       showSymbol: false,
       triggerLineEvent: true,
     })),

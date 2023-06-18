@@ -1,12 +1,12 @@
 import {
   Box,
-  CardMedia,
+  CircularProgress,
   Grid,
   Stack,
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineShop, AiTwotoneStar } from "react-icons/ai";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { BsArrowRightShort } from "react-icons/bs";
@@ -27,83 +27,12 @@ import ShopeeLogo from "../../../public/shopee-logo.jpg";
 import LineChart from "../../components/line-chart/LineChart";
 import { HistoryPrice } from "../../models/HistoryPrice";
 import { seriesAndCategoryFrom } from "./utils";
-import { MOCK_PRODUCTS } from "../search/Search.page";
 import ProductCard from "../../components/ProductCard";
 import useAuthStore from "../../stores/auth";
 import { toastError, toastSuccess } from "../../notification";
-
-const MOCK_PRODUCT: Product = {
-  id: "1",
-  name: "Áo Phông Rộng Nam Nữ Tay Lỡ 1969Unisex Áo Thun Rộng Cổ Tròn Giá Rẻ In HN Trà Đá Thiết Kế Năng Động Trẻ Trung",
-  price: 109000,
-  imageList: [
-    "https://down-vn.img.susercontent.com/file/vn-11134201-7qukw-lfwtf3aqfw8n69_tn",
-  ],
-  provider: "Lazada",
-  sold: 3452,
-  rate: 4.5,
-  location: "TP.HCM",
-  isMall: true,
-  shopName: "shopsigiakho",
-  link: "https://shopee.vn/Áo-Phông-Rộng-Nam-Nữ-Tay-Lỡ-1969Unisex-Áo-Thun-Rộng-Cổ-Tròn-Giá-Rẻ-In-HN-Trà-Đá-Thiết-Kế-Năng-Động-Trẻ-Trung-i.244599267.19546613965?sp_atk=686859fe-3d33-40cd-a66b-e43059c8d6aa&xptdk=686859fe-3d33-40cd-a66b-e43059c8d6aa",
-  categoryId: "123",
-  discountedPrice: 55000,
-  description: ` Tiết kiệm chi phí tối đa, hiệu quả cao
-  - Phương thức tự bảo vệ tiết kiệm nhất cho hộ gia đình có thu nhập trung bình
-  Sản phẩm có đèn led nhấp nháy như camera đang hoạt động.
-  Những tên có ý đồ bất chính đều sẽ phải dè chừng.`,
-};
-
-const MOCK_HISTORY: HistoryPrice[] = [
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-15T00:00:00",
-    price: 72000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-16T00:00:00",
-    price: 52000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-18T00:00:00",
-    price: 62000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-10T00:00:00",
-    price: 44000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-11T00:00:00",
-    price: 55000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-23T00:00:00",
-    price: 80000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-30T00:00:00",
-    price: 55000,
-  },
-  {
-    id: 1,
-    productId: 1,
-    date: "2023-06-15T00:00:00",
-    price: 72000,
-  },
-];
+import theme from "../../theme";
+import Carousel from "react-material-ui-carousel";
+import { getProductDetail, getProductPriceHistory } from "./api";
 
 function ProductInfo({ product }: { product: Product }) {
   const theme = useTheme();
@@ -112,7 +41,7 @@ function ProductInfo({ product }: { product: Product }) {
 
   const handleAddToWishList = () => {
     if (user === null) {
-      toastSuccess("Mời đăng nhập trước");
+      toastSuccess("Bạn có thể thêm vào giỏ hàng sau khi đăng nhập");
       navigate("/auth/signin");
       return;
     }
@@ -160,12 +89,17 @@ function ProductInfo({ product }: { product: Product }) {
   return (
     <Stack width="80%" direction="row" gap="40px">
       <Stack flex="0 0 35%" position="relative">
-        <CardMedia
-          component="img"
-          alt={product.name}
-          image={product.imageList[0]}
-          style={{ width: "100%", objectFit: "cover" }}
-        />
+        <Carousel
+          indicatorContainerProps={{
+            style: {
+              display: "none",
+            },
+          }}
+        >
+          {product.images.map((item) => (
+            <img width="100%" src={item.image1} />
+          ))}
+        </Carousel>
         <Box position="absolute" sx={{ top: 8, left: 8 }} height="20px">
           <MallBadge />
         </Box>
@@ -272,13 +206,28 @@ function ProductInfo({ product }: { product: Product }) {
 
 function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState<Product | null>(MOCK_PRODUCT);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [priceHistory, setPriceHistory] = useState<HistoryPrice[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   if (!id) return;
-  //   //Fetch product
-  // }, [id]);
-  const { series, category } = seriesAndCategoryFrom(MOCK_HISTORY);
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    getProductDetail(id)
+      .then((res) => setProduct(res))
+      .catch((error) => toastError(error))
+      .finally(() => setLoading(false));
+
+    // getProductPriceHistory(id)
+    //   .then((res) => setPriceHistory(res))
+    //   .catch((error) => toastError(error))
+    //   .finally(() => setLoading(false));
+  }, [id]);
+
+  const { series, category } = seriesAndCategoryFrom(priceHistory);
+
+  if (loading) return <CircularProgress size={60} />;
+
   if (!product) return <></>;
 
   return (
@@ -291,12 +240,54 @@ function ProductDetail() {
     >
       <ProductInfo product={product} />
 
-      <Stack width="70%" justifyContent="center" alignItems="center">
+      <Stack
+        width="70%"
+        justifyContent="center"
+        alignItems="center"
+        // gap="12px"
+        // sx={{
+        //   background: theme.palette.primary.light,
+        //   padding: "12px",
+        //   borderRadius: 1,
+        // }}
+      >
         <Typography variant="h6">Lịch sử giá</Typography>
-        <LineChart series={series} category={category} tooltipTitle="Giá bán" />
+        <Typography
+          fontSize={14}
+          color={(theme) => theme.palette.text.secondary}
+          fontStyle="italic"
+        >
+          Giá của sản phẩm trong vòng 90 ngày vừa qua
+        </Typography>
+        {priceHistory.length > 0 ? (
+          <LineChart
+            series={series}
+            category={category}
+            tooltipTitle="Giá bán"
+          />
+        ) : (
+          <Typography>Không có dữ liệu</Typography>
+        )}
       </Stack>
-      <Stack width="80%" justifyContent="center" alignItems="center" gap="20px">
+      {/* <Stack
+        width="80%"
+        justifyContent="center"
+        alignItems="center"
+        gap="20px"
+        position="relative"
+      >
         <Typography variant="h6">Sản phẩm tương tự</Typography>
+        <AppButton
+          sx={{
+            borderRadius: "30px",
+            padding: "4px",
+            position: "absolute",
+            top: 0,
+            right: 50,
+          }}
+        >
+          <BsArrowRightShort size={30} color={theme.palette.primary.main} />
+        </AppButton>
         <Grid container spacing={2}>
           {MOCK_PRODUCTS.map((product) => (
             <Grid item key={product.id} xs={12} sm={6} md={4} lg={2.3} xl={2}>
@@ -304,7 +295,7 @@ function ProductDetail() {
             </Grid>
           ))}
         </Grid>
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 }

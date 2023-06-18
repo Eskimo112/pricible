@@ -11,7 +11,6 @@ import SearchPage from "./feature/search/Search.page";
 import SignUp from "./feature/auth/SignUp";
 import SignIn from "./feature/auth/SignIn";
 import ProductPage from "./feature/product/Product.page";
-import Footer from "./components/Footer";
 
 const router = createBrowserRouter([
   {

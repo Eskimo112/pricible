@@ -12,7 +12,7 @@ import AppIcon from "../../components/AppIcon";
 import AppButton from "../../components/AppButton";
 import AppTextField from "../../components/AppTextField";
 import withIllustration from "../../withIllustration";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
 import useAuthStore from "../../stores/auth";
 import { toastError, toastSuccess } from "../../notification";
@@ -27,9 +27,19 @@ const SignIn = () => {
   const { setUser } = useAuthStore((state) => state);
 
   const handleSubmit = async () => {
+    if (!email) {
+      toastError("Bạn để email trống mất rồi");
+      return;
+    }
+    if (!password) {
+      toastError("Vui lòng nhập mật khẩu");
+      return;
+    }
     await login({ email: email, password: password })
       .then((user) => {
         setUser(user);
+        localStorage.setItem("pricible_email", email);
+        localStorage.setItem("pricible_password", password);
         toastSuccess("Đăng nhập thành công");
         navigate("/");
       })
@@ -43,19 +53,19 @@ const SignIn = () => {
   return (
     <Stack gap="40px" width="60%" alignItems="center" textAlign="center">
       <AppIcon size={40} marginBottom="-10px" />
-      <Stack gap="8px">
+      <Stack gap="8px" alignItems="center">
         <Typography variant="h5" fontWeight={700}>
-          Chao mung quay lai!
+          Chào mừng quay lại!
         </Typography>
-        <Typography variant="body1">
-          Luon dem den cho ban nhung su lua chon tot nhat
+        <Typography variant="body1" width="80%">
+          Niềm vui của chúng tôi là đem đến cho bạn những sự lựa chọn tốt nhất
         </Typography>
       </Stack>
       <Stack gap="16px" width="100%">
         <AppTextField
           value={email}
           fullWidth
-          placeholder="Email"
+          label="Email"
           backgroundColor={theme.palette.primary.light}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -63,7 +73,7 @@ const SignIn = () => {
           <AppTextField
             value={password}
             fullWidth
-            placeholder="Mật khẩu"
+            label="Mật khẩu"
             type="password"
             backgroundColor={theme.palette.primary.light}
             onChange={(e) => setPassword(e.target.value)}
@@ -83,6 +93,7 @@ const SignIn = () => {
                 componentsProps={{
                   typography: {
                     fontSize: "14px",
+                    color: theme.palette.text.secondary,
                   },
                 }}
                 sx={{ marginLeft: "0px" }}

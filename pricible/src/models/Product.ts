@@ -1,10 +1,16 @@
+export type ImageItem = {
+  id: number;
+  numberId: number;
+  image1: string;
+};
+
 export type Product = {
   id: string;
   name: string;
   price: number;
-  imageList: string[];
+  images: ImageItem[];
   provider: "Shopee" | "Lazada" | "Tiki";
-  sold: number;
+  sold: string;
   rate: number;
   location: string;
   isMall: boolean;

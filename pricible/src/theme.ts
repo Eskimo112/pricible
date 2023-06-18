@@ -3,30 +3,30 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#07a2be",
-      light: "#e6fafd",
-      9: "#20abc5",
-      8: "#39b5cb",
-      7: "#51bed2",
-      6: "#6ac7d8",
-      5: "#83d1df",
-      4: "#9cdae5",
-      3: "#b5e3ec",
-      2: "#cdecf2",
-      1: "#e6f6f9",
+      main: "#d3a02e",
+      light: "#fff7ea",
+      9: "#d7aa43",
+      8: "#dcb358",
+      7: "#e0bd6d",
+      6: "#e5c682",
+      5: "#e9d097",
+      4: "#edd9ab",
+      3: "#f2e3c0",
+      2: "#f6ecd5",
+      1: "#fff7ea",
     },
     text: {
-      primary: "#383838",
-      secondary: "#9198A0",
-      0: "#383838",
-      1: "#676E7B",
-      2: "#9198A0",
-      3: "#B1B8C0",
-      4: "#D1D6DA",
-      5: "#FFFFFF",
+      primary: "#49320a",
+      secondary: "#a49985",
+      0: "#49320a",
+      1: "#5b4723",
+      2: "#6d5b3b",
+      3: "#807054",
+      4: "#92846c",
+      5: "#a49985",
     },
     neutral: {
-      main: "#FFFFFF", // TODO: update later
+      main: "#fff7ea", // TODO: update later
       0: "#202020",
       1: "#353C49",
       2: "#505866",
@@ -46,7 +46,7 @@ const theme = createTheme({
   typography: {
     fontFamily: "Nunito Sans, sans-serif",
     allVariants: {
-      color: "#383838",
+      color: "#49320a",
     },
     h6: {
       fontWeight: 700,

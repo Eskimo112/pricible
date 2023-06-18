@@ -30,7 +30,7 @@ export default function AppIcon({
         <Typography
           fontWeight={700}
           fontSize={`${size - 14}px`}
-          color={props.color ?? theme.palette.primary.main}
+          color={props.color ?? theme.palette.text.primary}
         >
           ricible
         </Typography>

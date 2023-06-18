@@ -1,5 +1,6 @@
-import { Stack, Typography } from "@mui/material";
+import { InputAdornment, Stack, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
+import { BiSearch } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import BannerLeft from "../assets/BannerLeft";
 import BannerRight from "../assets/BannerRight";
@@ -8,6 +9,7 @@ import AppButton from "./AppButton";
 import AppTextField from "./AppTextField";
 
 export default function Banner() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const { setFilter } = useFilter();
@@ -39,7 +41,7 @@ export default function Banner() {
       })}
       gap="24px"
     >
-      <BannerLeft />
+      {/* <BannerLeft theme={theme} /> */}
       <Stack
         flexDirection="column"
         justifyContent="center"
@@ -66,18 +68,26 @@ export default function Banner() {
             placeholder={"Nhập tên sản phẩm"}
             onKeyDown={handleEnter}
             onChange={handleInputChange}
+            autoComplete="off"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BiSearch />
+                </InputAdornment>
+              ),
+            }}
           />
           <AppButton
             type="submit"
             onClick={handleSubmit}
             variant="contained"
-            sx={{ padding: "8px 30px" }}
+            sx={{ padding: "8px 30px", fontSize: "18px" }}
           >
             Tìm kiếm
           </AppButton>{" "}
         </Stack>
       </Stack>
-      <BannerRight />
+      {/* <BannerRight theme={theme} /> */}
     </Stack>
   );
 }

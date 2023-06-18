@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import TikiLogo from "../../public/tiki-logo.png";
 import LazadaLogo from "/../public/lazada-logo.jpeg";
 import ShopeeLogo from "/../public/shopee-logo.jpg";
+import Carousel from "react-material-ui-carousel";
 
 type Props = {
   product: Product;
@@ -60,7 +61,6 @@ export default function ProductCard({ product }: Props) {
     <Box
       height="fit-content"
       sx={(theme) => ({
-        // background: theme.palette.primary.light,
         borderRadius: 1,
         overflow: "hidden",
         cursor: "pointer",
@@ -75,8 +75,35 @@ export default function ProductCard({ product }: Props) {
       onClick={() => navigate(`/product/${product.id}`)}
     >
       <Box width="100%" position="relative">
-        <img width="100%" src={product.imageList[0]} />
-        <Box position="absolute" sx={{ bottom: 4, right: 0 }} height="16px">
+        {product.images.length > 0 ? (
+          <Carousel
+            indicatorContainerProps={{
+              style: {
+                display: "none",
+              },
+            }}
+          >
+            {product.images.map((item) => (
+              <img width="100%" src={item.image1} />
+            ))}
+          </Carousel>
+        ) : (
+          <Box
+            sx={{
+              aspectRatio: "1/1",
+              width: "100%",
+              background: theme.palette.primary.light,
+            }}
+          ></Box>
+        )}
+        <Box position="absolute" left="8px" top="8px" zIndex={1000}>
+          <ProviderBadge />
+        </Box>
+        <Box
+          position="absolute"
+          sx={{ bottom: 4, right: 0, zIndex: 1000 }}
+          height="16px"
+        >
           <MallBadge />
         </Box>
         <Typography
@@ -91,6 +118,7 @@ export default function ProductCard({ product }: Props) {
             borderRadius: "4px",
             top: 8,
             right: 8,
+            zIndex: 1000,
           }}
         >
           {`-${calculateDiscountPercent(
@@ -160,15 +188,6 @@ export default function ProductCard({ product }: Props) {
             </Typography>
           </Typography>
         </Box>
-        <Box position="absolute" left="8px" top="8px">
-          <ProviderBadge />
-        </Box>
-        {/* <Typography
-          fontSize={12}
-          color={(theme) => theme.palette.text.secondary}
-        >
-          {product.location}
-        </Typography> */}
       </Stack>
     </Box>
   );

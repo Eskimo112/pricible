@@ -13,10 +13,11 @@ const StyledTextField = styled(TextField)<TextFieldProps & CustomProps>(
     //   "& label.Mui-focused": {
     //     color: "red",
     //   },
-    "& .MuiInputBase-input": {},
+    "& .MuiInputLabel-root": {
+      color: theme.palette.text.secondary,
+    },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        //   background: "white",
         border: "none",
         borderRadius: "12px",
       },
@@ -24,6 +25,9 @@ const StyledTextField = styled(TextField)<TextFieldProps & CustomProps>(
       "&.Mui-focused fieldset": {
         border: `2px solid ${theme.palette.primary.main}`,
       },
+    },
+    "& .MuiFormHelperText-root": {
+      color: theme.palette.error.main,
     },
     "& .Mui-error": {
       borderColor: `${theme.palette.error.main}!important`,
