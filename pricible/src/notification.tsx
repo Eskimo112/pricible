@@ -1,6 +1,5 @@
 import type { OptionsObject, SnackbarMessage } from "notistack";
 
-import { CanceledError } from "axios";
 import { enqueueSnackbar } from "notistack";
 
 import { AiFillCheckCircle } from "react-icons/ai";

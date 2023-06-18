@@ -5,7 +5,7 @@ import { Product } from "../../models/Product";
 import { useFilterStore } from "../../stores/filter";
 import { formatPrice } from "../../utils";
 
-export default function PriceFilter({ products }: { products: Product[] }) {
+export default function PriceFilter() {
   const theme = useTheme();
   const { setFilter, smallestPrice, biggestPrice } = useFilterStore();
   const handleChange = (left: number | null, right: number | null) => {
@@ -35,7 +35,7 @@ export default function PriceFilter({ products }: { products: Product[] }) {
         max={5000000}
         step={10000}
         valueLabelFormat={(value) => `${formatPrice(value)}`}
-        onChangeCommitted={(e, value) => {
+        onChangeCommitted={(_, value) => {
           if (typeof value === "number") {
             handleChange(value, null);
             return;

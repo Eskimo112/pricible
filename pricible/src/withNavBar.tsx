@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import React, { ComponentType, ReactElement } from "react";
+import { ComponentType, ReactElement } from "react";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 

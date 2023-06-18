@@ -1,7 +1,5 @@
 import { AxiosResponse } from "axios";
 import API from "../../API";
-import { HistoryPrice } from "../../models/HistoryPrice";
-import { Product } from "../../models/Product";
 
 export type WishListItem = {
   id: number;

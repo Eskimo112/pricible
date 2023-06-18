@@ -20,7 +20,7 @@ import useAuthStore from "../stores/auth";
 import AppButton from "./AppButton";
 import { toastError, toastSuccess } from "../notification";
 import { useAuth } from "../feature/auth/useAuth";
-import { getWishList } from "../feature/wishlist/api";
+import { getWishList, WishListItem } from "../feature/wishlist/api";
 const NavBar = () => {
   const { keyword, setFilter } = useFilterStore();
   const [searchKey, setSearchKey] = useState(keyword);

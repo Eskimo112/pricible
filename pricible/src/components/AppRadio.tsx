@@ -5,7 +5,7 @@ type CustomProps = {
   haha?: string;
 };
 
-const StyledRadio = styled(Radio)<RadioProps & CustomProps>(({ theme }) => ({
+const StyledRadio = styled(Radio)<RadioProps & CustomProps>(() => ({
   padding: "4px",
 }));
 

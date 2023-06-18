@@ -20,7 +20,7 @@ export default function FilterBar({ products }: { products: Product[] }) {
       <Stack gap="20px">
         <ProviderFilter />
         <CategoryFilter />
-        <PriceFilter products={products} />
+        <PriceFilter />
         <MallFilter />
         <LocationFilter products={products} />
       </Stack>

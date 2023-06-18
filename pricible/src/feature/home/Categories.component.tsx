@@ -42,7 +42,7 @@ export default function Categories() {
           {categories.map((item, index) => (
             <AppButton
               variant="outlined"
-              key={item.id}
+              key={index}
               sx={(theme) => ({
                 border: "1px solid transparent",
                 background: theme.palette.primary.light,

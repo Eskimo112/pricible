@@ -1,5 +1,4 @@
-import { Box, CircularProgress, Grid, Stack, Typography } from "@mui/material";
-import ProductCard from "../../components/ProductCard";
+import { CircularProgress, Grid, Stack, Typography } from "@mui/material";
 import { Product } from "../../models/Product";
 import withNavbar from "../../withNavBar";
 import { useEffect, useState } from "react";
