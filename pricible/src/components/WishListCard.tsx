@@ -3,19 +3,27 @@ import { Product } from "../models/Product";
 import { calculateDiscountPercent, formatPrice } from "../utils";
 import { AiTwotoneStar } from "react-icons/ai";
 import { lazadaMallBadge, shopeeMallBadge, tikiMallBadge } from "../constant";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TikiLogo from "/tiki-logo.png";
 import LazadaLogo from "/lazada-logo.jpeg";
 import ShopeeLogo from "/shopee-logo.jpg";
+import AppButton from "./AppButton";
+import { BsArrowRightShort, BsDot } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 import Carousel from "react-material-ui-carousel";
+import { removeFromWishList } from "../feature/wishlist/api";
+import useAuthStore from "../stores/auth";
+import { toastError, toastSuccess } from "../notification";
 
 type Props = {
   product: Product;
+  onDelete: () => void;
 };
 
-export default function ProductCard({ product }: Props) {
+export default function WishListItemCard({ product, onDelete }: Props) {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   const ProviderBadge = (): JSX.Element => {
     if (!product.isMall) return <></>;
@@ -57,8 +65,21 @@ export default function ProductCard({ product }: Props) {
     }
     return <></>;
   };
+
+  const handleRemoveFromWishList = (productId: number) => {
+    if (!user) return;
+    removeFromWishList(user.id, productId)
+      .then(() => {
+        onDelete();
+        toastSuccess("Xóa bỏ sản phẩm thành công");
+      })
+      .catch((error) => toastError(error));
+  };
   return (
     <Box
+      display="flex"
+      width="100%"
+      gap="24px"
       height="fit-content"
       sx={(theme) => ({
         borderRadius: 1,
@@ -68,21 +89,21 @@ export default function ProductCard({ product }: Props) {
         transition: "transform 0.5s ease",
         ":hover": {
           background: theme.palette.primary.light,
-          transform: "scale(1.05)",
+          transform: "scale(1.02)",
         },
       })}
       position="relative"
       onClick={() => navigate(`/product/${product.id}`)}
     >
-      <Box width="100%" position="relative">
+      <Box
+        display="flex"
+        flex="0 0 20%"
+        width="100%"
+        position="relative"
+        sx={{ aspectRatio: "1/1" }}
+      >
         {product.images.length > 0 ? (
-          <Carousel
-            indicatorContainerProps={{
-              style: {
-                display: "none",
-              },
-            }}
-          >
+          <Carousel IndicatorIcon={<BsDot />}>
             {product.images.map((item) => (
               <img width="100%" src={item.image1} />
             ))}
@@ -127,12 +148,19 @@ export default function ProductCard({ product }: Props) {
           )}%`}
         </Typography>
       </Box>
-      <Stack padding="4px 12px" gap="12px">
+      <Stack
+        display="flex"
+        flex="0 0 70%"
+        padding="4px 12px"
+        gap="12px"
+        justifyContent="center"
+      >
         <Typography
-          variant="body2"
+          variant="body1"
           overflow="hidden"
           textOverflow="ellipsis"
           style={{
+            fontWeight: "600",
             whiteSpace: "normal",
             wordWrap: "break-word",
             display: "-webkit-box",
@@ -166,7 +194,7 @@ export default function ProductCard({ product }: Props) {
           <Box display="flex">
             <AiTwotoneStar color={theme.palette.primary.main} />
             <Typography
-              fontSize={12}
+              fontSize={14}
               color={(theme) => theme.palette.text[0]}
               fontWeight={600}
             >
@@ -174,13 +202,13 @@ export default function ProductCard({ product }: Props) {
             </Typography>
           </Box>
           <Typography
-            fontSize={12}
+            fontSize={14}
             color={(theme) => theme.palette.text.secondary}
           >
             Đã bán{" "}
             <Typography
               component="span"
-              fontSize={12}
+              fontSize={14}
               color={(theme) => theme.palette.text[0]}
               fontWeight={600}
             >
@@ -188,6 +216,30 @@ export default function ProductCard({ product }: Props) {
             </Typography>
           </Typography>
         </Box>
+        <Stack direction="row" width="100%" gap="12px">
+          <Link to={product.link} style={{ width: "100%" }}>
+            <AppButton
+              sx={{ padding: "6px", fontSize: 14 }}
+              fullWidth
+              variant="contained"
+            >
+              Mua ngay
+              <BsArrowRightShort size={24} />
+            </AppButton>
+          </Link>
+          <AppButton
+            sx={{ padding: "6px", fontSize: 14 }}
+            fullWidth
+            variant="outlined"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveFromWishList(product.id);
+            }}
+          >
+            Xóa khỏi giỏ hàng
+            <MdDelete size={20} />
+          </AppButton>
+        </Stack>
       </Stack>
     </Box>
   );

@@ -5,7 +5,7 @@ export type ImageItem = {
 };
 
 export type Product = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   images: ImageItem[];

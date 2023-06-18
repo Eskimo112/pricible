@@ -14,13 +14,15 @@ import {
 } from "@mui/material";
 import AppIcon from "./AppIcon";
 import AppTextField from "./AppTextField";
-import { useFilter } from "../stores/filter";
+import { useFilterStore } from "../stores/filter";
 import useDebounce from "../hooks/useDebounce";
 import useAuthStore from "../stores/auth";
 import AppButton from "./AppButton";
-import { toastSuccess } from "../notification";
+import { toastError, toastSuccess } from "../notification";
+import { useAuth } from "../feature/auth/useAuth";
+import { getWishList } from "../feature/wishlist/api";
 const NavBar = () => {
-  const { keyword, setFilter } = useFilter();
+  const { keyword, setFilter } = useFilterStore();
   const [searchKey, setSearchKey] = useState(keyword);
   const debouncedSearchKey = useDebounce(searchKey, 300);
   const theme = useTheme();
@@ -28,11 +30,48 @@ const NavBar = () => {
   const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [wishList, setWishList] = useState<WishListItem[]>([]);
+
+  const { login } = useAuth();
+
+  const handleLogin = async (email: string, password: string) => {
+    await login({ email: email, password: password })
+      .then((user) => {
+        setUser(user);
+      })
+      .catch((error) => {
+        toastError(error);
+      });
+  };
+  useEffect(() => {
+    if (!user) return;
+    getWishList(user.id)
+      .then((res) => {
+        setWishList(res);
+      })
+      .catch((error) => toastError(error));
+  }, [user]);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("pricible_email");
+    const savedPassword = localStorage.getItem("pricible_password");
+    if (savedEmail && savedPassword) {
+      handleLogin(savedEmail, savedPassword);
+    }
+  }, []);
 
   const handleInputChange = (event: React.SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
     setSearchKey(target.value);
   };
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" || e.keyCode === 33) {
+      setFilter({ keyword: searchKey });
+      navigate("/search");
+    }
+  };
+
   const handleLogout = () => {
     setAnchorEl(null);
     localStorage.removeItem("pricible_email");
@@ -53,7 +92,7 @@ const NavBar = () => {
       boxSizing="border-box"
       paddingY="12px"
       paddingX="40px"
-      zIndex={10000}
+      zIndex={1001}
       sx={{ background: "white" }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -78,6 +117,7 @@ const NavBar = () => {
             placeholder="Tìm kiếm sản phẩm"
             backgroundColor={theme.palette.neutral[5]}
             onChange={handleInputChange}
+            onKeyDown={handleEnter}
           />
         )}
         <Box display="flex" alignItems="center" gap="8px">
@@ -90,7 +130,7 @@ const NavBar = () => {
                   gap: "4px",
                   background: theme.palette.primary.light,
                 }}
-                onClick={() => navigate("/cart")}
+                onClick={() => navigate("/wishlist")}
               >
                 <FaShoppingCart color={theme.palette.text.primary} size={20} />
                 <Typography>Giỏ hàng</Typography>
@@ -105,7 +145,7 @@ const NavBar = () => {
                     background: theme.palette.text.primary,
                   }}
                 >
-                  4
+                  {wishList.length}
                 </Typography>
               </AppButton>
               <AppButton
@@ -140,6 +180,7 @@ const NavBar = () => {
         <Popover
           open={anchorEl !== null}
           anchorEl={anchorEl}
+          onClose={() => setAnchorEl(null)}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "left",

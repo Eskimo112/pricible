@@ -23,6 +23,7 @@ export const getProductPriceHistory = async (
     const response: AxiosResponse<HistoryPrice[]> = await API.get(
       `HistoryPrice/id?id=${id}`
     );
+    if (!Array.isArray(response.data)) return [response.data];
     return response.data;
   } catch (error) {
     throw new Error(

@@ -2,7 +2,7 @@ import { Theme, Typography, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
 import { TbBrandShopee } from "react-icons/tb";
 import AppButton from "../../components/AppButton";
-import { useFilter } from "../../stores/filter";
+import { useFilterStore } from "../../stores/filter";
 
 const SHARED_BUTTON_SX = (theme: Theme, selected: boolean) => ({
   // width: "60%",
@@ -19,9 +19,9 @@ const SHARED_BUTTON_SX = (theme: Theme, selected: boolean) => ({
 
 export default function MallFilter() {
   const theme = useTheme();
-  const { setFilter, isMall } = useFilter();
+  const { setFilter, isMall } = useFilterStore();
   const handleChange = (value: boolean | null) => {
-    setFilter({ isMall: value });
+    setFilter({ isMall: value, pageIndex: 1 });
   };
   return (
     <Stack gap="16px">

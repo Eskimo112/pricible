@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { ComponentType, ReactElement } from "react";
-import EcommerceIllustration from "../public/Ecommerce2.png";
+import EcommerceIllustration from "/Ecommerce2.png";
 const withIllustration = <P extends object>(
   WrappedComponent: ComponentType<P>
 ): ComponentType<P> => {

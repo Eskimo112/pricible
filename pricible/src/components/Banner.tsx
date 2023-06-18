@@ -2,9 +2,7 @@ import { InputAdornment, Stack, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import BannerLeft from "../assets/BannerLeft";
-import BannerRight from "../assets/BannerRight";
-import { useFilter } from "../stores/filter";
+import { useFilterStore } from "../stores/filter";
 import AppButton from "./AppButton";
 import AppTextField from "./AppTextField";
 
@@ -12,7 +10,7 @@ export default function Banner() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
-  const { setFilter } = useFilter();
+  const { setFilter } = useFilterStore();
 
   const handleSubmit = () => {
     setFilter({ keyword: searchValue });

@@ -1,14 +1,15 @@
 import { Slider, Typography, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
 import { TbZoomMoney } from "react-icons/tb";
-import { useFilter } from "../../stores/filter";
+import { Product } from "../../models/Product";
+import { useFilterStore } from "../../stores/filter";
 import { formatPrice } from "../../utils";
 
-export default function PriceFilter() {
+export default function PriceFilter({ products }: { products: Product[] }) {
   const theme = useTheme();
-  const { setFilter, smallestPrice, biggestPrice } = useFilter();
+  const { setFilter, smallestPrice, biggestPrice } = useFilterStore();
   const handleChange = (left: number | null, right: number | null) => {
-    setFilter({ smallestPrice: left, biggestPrice: right });
+    setFilter({ smallestPrice: left, biggestPrice: right, pageIndex: 1 });
   };
   return (
     <Stack gap="8px">

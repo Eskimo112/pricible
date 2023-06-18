@@ -27,17 +27,17 @@ import ShopeeLogo from "../../../public/shopee-logo.jpg";
 import LineChart from "../../components/line-chart/LineChart";
 import { HistoryPrice } from "../../models/HistoryPrice";
 import { seriesAndCategoryFrom } from "./utils";
-import ProductCard from "../../components/ProductCard";
 import useAuthStore from "../../stores/auth";
 import { toastError, toastSuccess } from "../../notification";
-import theme from "../../theme";
 import Carousel from "react-material-ui-carousel";
 import { getProductDetail, getProductPriceHistory } from "./api";
+import { addToWishList } from "../wishlist/api";
 
 function ProductInfo({ product }: { product: Product }) {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user } = useAuthStore();
+  const [addLoading, setAddLoading] = useState(false);
 
   const handleAddToWishList = () => {
     if (user === null) {
@@ -45,7 +45,11 @@ function ProductInfo({ product }: { product: Product }) {
       navigate("/auth/signin");
       return;
     }
-    //call api
+    setAddLoading(true);
+    addToWishList(user.id, product.id)
+      .then(() => toastSuccess("Thêm vào giỏ hàng thành công"))
+      .catch((error) => toastError(error))
+      .finally(() => setAddLoading(false));
     return;
   };
   const MallBadge = (): JSX.Element => {
@@ -194,7 +198,7 @@ function ProductInfo({ product }: { product: Product }) {
             variant="outlined"
             onClick={handleAddToWishList}
           >
-            Lưu vào giỏ hàng
+            {addLoading ? <CircularProgress size={14} /> : `Lưu vào giỏ hàng`}
             <IoMdCart size={20} />
           </AppButton>
         </Stack>
@@ -209,7 +213,9 @@ function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [priceHistory, setPriceHistory] = useState<HistoryPrice[]>([]);
   const [loading, setLoading] = useState(false);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (!id) return;
     setLoading(true);
@@ -218,15 +224,25 @@ function ProductDetail() {
       .catch((error) => toastError(error))
       .finally(() => setLoading(false));
 
-    // getProductPriceHistory(id)
-    //   .then((res) => setPriceHistory(res))
-    //   .catch((error) => toastError(error))
-    //   .finally(() => setLoading(false));
+    getProductPriceHistory(id)
+      .then((res) => setPriceHistory(res))
+      .catch((error) => toastError(error))
+      .finally(() => setLoading(false));
   }, [id]);
 
   const { series, category } = seriesAndCategoryFrom(priceHistory);
 
-  if (loading) return <CircularProgress size={60} />;
+  if (loading)
+    return (
+      <Stack
+        width="100%"
+        justifyContent="center"
+        alignItems={"center"}
+        flex="1"
+      >
+        <CircularProgress size={60} />;
+      </Stack>
+    );
 
   if (!product) return <></>;
 
@@ -240,17 +256,7 @@ function ProductDetail() {
     >
       <ProductInfo product={product} />
 
-      <Stack
-        width="70%"
-        justifyContent="center"
-        alignItems="center"
-        // gap="12px"
-        // sx={{
-        //   background: theme.palette.primary.light,
-        //   padding: "12px",
-        //   borderRadius: 1,
-        // }}
-      >
+      <Stack width="70%" justifyContent="center" alignItems="center">
         <Typography variant="h6">Lịch sử giá</Typography>
         <Typography
           fontSize={14}

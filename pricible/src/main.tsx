@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
@@ -11,6 +11,7 @@ import SearchPage from "./feature/search/Search.page";
 import SignUp from "./feature/auth/SignUp";
 import SignIn from "./feature/auth/SignIn";
 import ProductPage from "./feature/product/Product.page";
+import WishListPage from "./feature/wishlist/WishList.page";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
     path: "/product/:id", // Specify the path with a parameter placeholder ":id"
     element: <ProductPage />,
   },
+  {
+    path: "/wishlist", // Specify the path with a parameter placeholder ":id"
+    element: <WishListPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
@@ -44,7 +49,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         Components={{ default: AppSnackBar }}
         autoHideDuration={3000}
       >
-        <RouterProvider router={router} />
+        <RouterProvider
+          router={router}
+          fallbackElement={<CircularProgress size={60} />}
+        />
       </SnackbarProvider>
     </ThemeProvider>
   </React.StrictMode>

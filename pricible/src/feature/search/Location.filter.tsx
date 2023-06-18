@@ -2,7 +2,8 @@ import { Theme, Typography, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
 import { GrLocation } from "react-icons/gr";
 import AppButton from "../../components/AppButton";
-import { useFilter } from "../../stores/filter";
+import { Product } from "../../models/Product";
+import { useFilterStore } from "../../stores/filter";
 
 const LOCATION = ["TP.HCM", "Hà Nội"];
 
@@ -19,11 +20,12 @@ const SHARED_BUTTON_SX = (theme: Theme, selected: boolean) => ({
   color: selected ? "white" : theme.palette.text.primary,
 });
 
-export default function LocationFilter() {
+export default function LocationFilter({ products }: { products: Product[] }) {
   const theme = useTheme();
-  const { setFilter, location } = useFilter();
+  const { setFilter, location } = useFilterStore();
+  const locationSet = new Set(products.map((item) => item.location));
   const handleChange = (value: string | null) => {
-    setFilter({ location: value });
+    setFilter({ location: value, pageIndex: 1 });
   };
   return (
     <Stack gap="16px">
@@ -44,7 +46,7 @@ export default function LocationFilter() {
         >
           Tất cả
         </AppButton>
-        {LOCATION.map((item, index) => (
+        {Array.from(locationSet).map((item, index) => (
           <AppButton
             key={index}
             fullWidth

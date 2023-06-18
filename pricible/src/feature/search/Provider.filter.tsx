@@ -11,7 +11,7 @@ import { Stack } from "@mui/system";
 import { AiOutlineShop } from "react-icons/ai";
 import { SiShopee } from "react-icons/si";
 import AppButton from "../../components/AppButton";
-import { useFilter } from "../../stores/filter";
+import { useFilterStore } from "../../stores/filter";
 
 const PROVIDER = ["Shopee", "Lazada", "Tiki"];
 
@@ -30,9 +30,9 @@ const SHARED_BUTTON_SX = (theme: Theme, selected: boolean) => ({
 
 export default function ProviderFilter() {
   const theme = useTheme();
-  const { setFilter, provider } = useFilter();
+  const { setFilter, provider } = useFilterStore();
   const handleChange = (value: string | null) => {
-    setFilter({ provider: value });
+    setFilter({ provider: value, pageIndex: 1 });
   };
   return (
     <Stack gap="16px">
