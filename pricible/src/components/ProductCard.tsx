@@ -84,7 +84,11 @@ export default function ProductCard({ product }: Props) {
             }}
           >
             {product.images.map((item) => (
-              <img width="100%" src={item.image1} />
+              <img
+                width="100%"
+                style={{ aspectRatio: "1/1" }}
+                src={item.image1}
+              />
             ))}
           </Carousel>
         ) : (

@@ -48,15 +48,16 @@ export default function Banner() {
         gap="24px"
         height="280px"
       >
-        <Typography variant="h4" fontWeight={600}>
-          Tìm kiếm sản phẩm{" "}
+        <Typography variant="h4" fontWeight={600} textAlign="center">
+          Nền tảng mua sắm, so sánh giá
           <Typography
             component="span"
             variant="h4"
             color={(theme) => theme.palette.primary.main}
             fontWeight={700}
           >
-            tốt nhất
+            {" "}
+            cho mọi nhà{" "}
           </Typography>
         </Typography>
 
@@ -73,6 +74,14 @@ export default function Banner() {
                   <BiSearch />
                 </InputAdornment>
               ),
+              sx: (theme) => ({
+                ":hover": {
+                  boxShadow: theme.shadows[1],
+                },
+                ":focus-within": {
+                  boxShadow: theme.shadows[1],
+                },
+              }),
             }}
           />
           <AppButton

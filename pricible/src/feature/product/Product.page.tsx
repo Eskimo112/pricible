@@ -182,7 +182,10 @@ function ProductInfo({ product }: { product: Product }) {
         </Stack>
         {/* BUTTON */}
         <Stack direction="row" width="100%" gap="12px">
-          <Link to={product.link} style={{ width: "100%" }}>
+          <Link
+            to={product.link}
+            style={{ width: "100%", textDecoration: "none" }}
+          >
             <AppButton
               sx={{ padding: "10px", fontSize: 18 }}
               fullWidth
