@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppButton from "../../components/AppButton";
 import { toastError } from "../../notification";
+import { useCategoryStore } from "../../stores/category";
 import { useFilterStore } from "../../stores/filter";
 import { Category, getAllCategory } from "./api";
 
 export default function Categories() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { categories, setCategories } = useCategoryStore();
   const [loading, setLoading] = useState(false);
   const { setFilter } = useFilterStore();
   const navigate = useNavigate();

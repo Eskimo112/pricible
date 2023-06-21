@@ -6,7 +6,12 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme, variant }) => ({
   padding: "4px",
   whiteSpace: "nowrap",
   minWidth: 0,
-  ...(variant === "contained" && { color: theme.palette.neutral.main }),
+  ...(variant === "contained" && {
+    color: theme.palette.neutral.main,
+    ":hover": {
+      boxShadow: theme.shadows[1],
+    },
+  }),
 
   "& .": {},
 }));

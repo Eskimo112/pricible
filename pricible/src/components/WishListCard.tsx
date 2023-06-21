@@ -42,7 +42,7 @@ export default function WishListItemCard({ product, onDelete }: Props) {
         component="img"
         src={logoUrl}
         alt=""
-        height="24px"
+        height="20px"
         display="flex"
         style={{
           borderRadius: "4px",
@@ -100,14 +100,11 @@ export default function WishListItemCard({ product, onDelete }: Props) {
         flex="0 0 20%"
         width="100%"
         position="relative"
+        padding="12px"
         sx={{ aspectRatio: "1/1" }}
       >
         {product.images.length > 0 ? (
-          <Carousel IndicatorIcon={<BsDot />}>
-            {product.images.map((item) => (
-              <img width="100%" src={item.image1} />
-            ))}
-          </Carousel>
+          <img width="100%" src={product.images[0].image1} />
         ) : (
           <Box
             sx={{
@@ -117,13 +114,13 @@ export default function WishListItemCard({ product, onDelete }: Props) {
             }}
           ></Box>
         )}
-        <Box position="absolute" left="8px" top="8px" zIndex={1000}>
+        <Box position="absolute" left="16px" top="16px" zIndex={1000}>
           <ProviderBadge />
         </Box>
         <Box
           position="absolute"
-          sx={{ bottom: 4, right: 0, zIndex: 1000 }}
-          height="16px"
+          sx={{ bottom: 16, right: 16, zIndex: 1000 }}
+          height="14px"
         >
           <MallBadge />
         </Box>
@@ -132,13 +129,13 @@ export default function WishListItemCard({ product, onDelete }: Props) {
           component="span"
           color="white"
           fontWeight={600}
-          fontSize="12px"
+          fontSize="10px"
           padding="2px 4px"
           sx={{
             background: theme.palette.primary.main,
             borderRadius: "4px",
-            top: 8,
-            right: 8,
+            top: 16,
+            right: 16,
             zIndex: 1000,
           }}
         >
@@ -152,11 +149,12 @@ export default function WishListItemCard({ product, onDelete }: Props) {
         display="flex"
         flex="0 0 70%"
         padding="4px 12px"
-        gap="12px"
+        gap="16px"
         justifyContent="center"
       >
         <Typography
           variant="body1"
+          fontSize={18}
           overflow="hidden"
           textOverflow="ellipsis"
           style={{
@@ -173,6 +171,7 @@ export default function WishListItemCard({ product, onDelete }: Props) {
         <Stack gap="4px" direction="row" alignItems="center">
           <Typography
             variant="body1"
+            fontSize={18}
             fontWeight={700}
             // color={(theme) => theme.palette.primary.main}
           >
@@ -217,7 +216,10 @@ export default function WishListItemCard({ product, onDelete }: Props) {
           </Typography>
         </Box>
         <Stack direction="row" width="100%" gap="12px">
-          <Link to={product.link} style={{ width: "100%" }}>
+          <Link
+            to={product.link}
+            style={{ width: "100%", textDecoration: "none" }}
+          >
             <AppButton
               sx={{ padding: "6px", fontSize: 14 }}
               fullWidth

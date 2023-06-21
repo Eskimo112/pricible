@@ -32,6 +32,10 @@ import { toastError, toastSuccess } from "../../notification";
 import Carousel from "react-material-ui-carousel";
 import { getProductDetail, getProductPriceHistory } from "./api";
 import { addToWishList } from "../wishlist/api";
+import { getProducts } from "../api";
+import { Filter } from "../../models/Filter";
+import ProductCard from "../../components/ProductCard";
+import { useCategoryStore } from "../../stores/category";
 
 function ProductInfo({ product }: { product: Product }) {
   const theme = useTheme();
@@ -212,13 +216,18 @@ function ProductInfo({ product }: { product: Product }) {
 }
 
 function ProductDetail() {
+  const theme = useTheme();
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [priceHistory, setPriceHistory] = useState<HistoryPrice[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const { categories } = useCategoryStore();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useEffect(() => {
     if (!id) return;
     setLoading(true);
@@ -232,6 +241,31 @@ function ProductDetail() {
       .catch((error) => toastError(error))
       .finally(() => setLoading(false));
   }, [id]);
+
+  useEffect(() => {
+    if (!product) return;
+    const categoryName = categories.find(
+      (item) => item.id === product.categoryId
+    )?.name;
+
+    if (!categoryName) return;
+    const relatedFilter: Filter = {
+      keyword: null,
+      smallestPrice: null,
+      biggestPrice: null,
+      category: categoryName,
+      location: null,
+      provider: null,
+      isMall: null,
+      rate: null,
+      pageSize: 5,
+      pageIndex: 1,
+    };
+    getProducts(relatedFilter)
+      .then((res) => setRelatedProducts(res.data.slice(0, 5)))
+      .catch((error) => toastError(error))
+      .finally(() => setLoading(false));
+  }, [product, categories]);
 
   const { series, category } = seriesAndCategoryFrom(priceHistory);
 
@@ -278,7 +312,7 @@ function ProductDetail() {
           <Typography>Không có dữ liệu</Typography>
         )}
       </Stack>
-      {/* <Stack
+      <Stack
         width="80%"
         justifyContent="center"
         alignItems="center"
@@ -286,7 +320,7 @@ function ProductDetail() {
         position="relative"
       >
         <Typography variant="h6">Sản phẩm tương tự</Typography>
-        <AppButton
+        {/* <AppButton
           sx={{
             borderRadius: "30px",
             padding: "4px",
@@ -296,15 +330,15 @@ function ProductDetail() {
           }}
         >
           <BsArrowRightShort size={30} color={theme.palette.primary.main} />
-        </AppButton>
+        </AppButton> */}
         <Grid container spacing={2}>
-          {MOCK_PRODUCTS.map((product) => (
+          {relatedProducts.map((product) => (
             <Grid item key={product.id} xs={12} sm={6} md={4} lg={2.3} xl={2}>
               <ProductCard product={product} />
             </Grid>
           ))}
         </Grid>
-      </Stack> */}
+      </Stack>
     </Stack>
   );
 }

@@ -17,6 +17,6 @@ export type Product = {
   description?: string;
   shopName: string;
   link: string;
-  categoryId: string;
+  categoryId: number;
   discountedPrice: number;
 };

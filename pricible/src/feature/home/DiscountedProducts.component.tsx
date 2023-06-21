@@ -3,6 +3,7 @@ import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { BiTrendingDown } from "react-icons/bi";
 import { BsArrowRightShort } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import AppButton from "../../components/AppButton";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../models/Product";
@@ -13,6 +14,7 @@ export default function DiscountedProducts() {
   const theme = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     setLoading(true);
     getProducts()
@@ -30,6 +32,9 @@ export default function DiscountedProducts() {
           sx={{
             borderRadius: "30px",
             padding: "4px",
+          }}
+          onClick={() => {
+            navigate("/search");
           }}
         >
           <BsArrowRightShort size={30} color={theme.palette.primary.main} />

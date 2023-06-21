@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { BiSearch, BiUser } from "react-icons/bi";
+import { BiLogInCircle, BiSearch, BiUser } from "react-icons/bi";
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import {
   Box,
@@ -164,15 +164,17 @@ const NavBar = () => {
           ) : (
             <Link to="/auth/signin" style={{ textDecoration: "none" }}>
               <Button
-                variant="contained"
+                variant="outlined"
                 sx={{
-                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
                   fontWeight: 600,
                   textTransform: "none",
                   padding: "6px 16px",
                 }}
               >
                 Đăng nhập
+                <BiLogInCircle size={20} />
               </Button>
             </Link>
           )}

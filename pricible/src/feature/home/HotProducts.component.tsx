@@ -3,16 +3,17 @@ import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { BsArrowRightShort } from "react-icons/bs";
 import { FaFireAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import AppButton from "../../components/AppButton";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../models/Product";
-import { calculateDiscountPercent } from "../../utils";
 import { getProducts } from "../api";
 
 export default function HotProducts() {
   const theme = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     setLoading(true);
     getProducts()
@@ -30,6 +31,9 @@ export default function HotProducts() {
           sx={{
             borderRadius: "30px",
             padding: "4px",
+          }}
+          onClick={() => {
+            navigate("/search");
           }}
         >
           <BsArrowRightShort size={30} color={theme.palette.primary.main} />

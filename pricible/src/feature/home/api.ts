@@ -1,7 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useState } from "react";
 import API from "../../API";
-import { User } from "../../models/User";
 
 export type Category = {
   id: number;
