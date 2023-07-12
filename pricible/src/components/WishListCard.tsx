@@ -149,7 +149,7 @@ export default function WishListItemCard({ product, onDelete }: Props) {
         display="flex"
         flex="0 0 70%"
         padding="4px 12px"
-        gap="16px"
+        gap="16 opx"
         justifyContent="center"
       >
         <Typography

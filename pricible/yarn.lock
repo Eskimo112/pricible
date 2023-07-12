@@ -1162,6 +1162,11 @@
     "@typescript-eslint/types" "5.59.8"
     "eslint-visitor-keys" "^3.3.0"
 
+"@vercel/analytics@^1.0.1":
+  "integrity" "sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow=="
+  "resolved" "https://registry.npmjs.org/@vercel/analytics/-/analytics-1.0.1.tgz"
+  "version" "1.0.1"
+
 "@vitejs/plugin-react@^4.0.0":
   "integrity" "sha512-HX0XzMjL3hhOYm+0s95pb0Z7F8O81G7joUHgfDd/9J/ZZf5k4xX6QAMFkKsHFxaHlf6X7GD7+XuaZ66ULiJuhQ=="
   "resolved" "https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-4.0.0.tgz"

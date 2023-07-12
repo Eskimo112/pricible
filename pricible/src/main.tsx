@@ -12,6 +12,7 @@ import SignUp from "./feature/auth/SignUp";
 import SignIn from "./feature/auth/SignIn";
 import ProductPage from "./feature/product/Product.page";
 import WishListPage from "./feature/wishlist/WishList.page";
+import { inject } from "@vercel/analytics";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
     element: <WishListPage />,
   },
 ]);
+
+inject();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
