@@ -21,7 +21,7 @@ export const getProductPriceHistory = async (
 ): Promise<HistoryPrice[]> => {
   try {
     const response: AxiosResponse<HistoryPrice[]> = await API.get(
-      `HistoryPrice/id?id=${id}`
+      `HistoryPrice/productId?productId=${id}`
     );
     if (!Array.isArray(response.data)) return [response.data];
     return response.data;
