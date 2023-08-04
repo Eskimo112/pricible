@@ -5,6 +5,7 @@ import { AiTwotoneStar } from "react-icons/ai";
 import { lazadaMallBadge, shopeeMallBadge, tikiMallBadge } from "../constant";
 import { useNavigate } from "react-router-dom";
 import TikiLogo from "/tiki-logo.png";
+import TiktokLogo from "/tiktok-logo.png";
 import LazadaLogo from "/lazada-logo.jpeg";
 import ShopeeLogo from "/shopee-logo.jpg";
 import Carousel from "react-material-ui-carousel";
@@ -18,7 +19,6 @@ export default function ProductCard({ product }: Props) {
   const navigate = useNavigate();
 
   const ProviderBadge = (): JSX.Element => {
-    if (!product.isMall) return <></>;
     let logoUrl = "";
     if (product.provider === "Tiki") {
       logoUrl = TikiLogo;
@@ -29,6 +29,10 @@ export default function ProductCard({ product }: Props) {
     if (product.provider === "Lazada") {
       logoUrl = LazadaLogo;
     }
+    if (product.provider === "TikTok Shop") {
+      logoUrl = TiktokLogo;
+    }
+
     return (
       <Box
         component="img"

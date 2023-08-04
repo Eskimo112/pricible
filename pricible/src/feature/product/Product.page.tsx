@@ -24,6 +24,7 @@ import {
 import TikiLogo from "../../../public/tiki-logo.png";
 import LazadaLogo from "../../../public/lazada-logo.jpeg";
 import ShopeeLogo from "../../../public/shopee-logo.jpg";
+import TikTokLogo from "../../../public/tiktok-logo.png";
 import LineChart from "../../components/line-chart/LineChart";
 import { HistoryPrice } from "../../models/HistoryPrice";
 import { seriesAndCategoryFrom } from "./utils";
@@ -71,7 +72,6 @@ function ProductInfo({ product }: { product: Product }) {
   };
 
   const ProviderBadge = (): JSX.Element => {
-    if (!product.isMall) return <></>;
     let logoUrl = "";
     if (product.provider === "Tiki") {
       logoUrl = TikiLogo;
@@ -81,6 +81,9 @@ function ProductInfo({ product }: { product: Product }) {
     }
     if (product.provider === "Lazada") {
       logoUrl = LazadaLogo;
+    }
+    if (product.provider === "TikTok Shop") {
+      logoUrl = TikTokLogo;
     }
     return (
       <img

@@ -9,7 +9,7 @@ export type Product = {
   name: string;
   price: number;
   images: ImageItem[];
-  provider: "Shopee" | "Lazada" | "Tiki";
+  provider: "Shopee" | "Lazada" | "Tiki" | "TikTok Shop";
   sold: string;
   rate: number;
   location: string;

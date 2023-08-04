@@ -18,7 +18,7 @@ import AppButton from "../../components/AppButton";
 import { useFilterStore } from "../../stores/filter";
 import { Category, getAllCategory } from "../home/api";
 
-const PROVIDER = ["Shopee", "Lazada", "Tiki"];
+const PROVIDER = ["Shopee", "Lazada", "Tiki", "Tiktok sop"];
 
 const SHARED_BUTTON_SX = (theme: Theme, selected: boolean) => ({
   // width: "60%",
@@ -45,7 +45,7 @@ export default function CategoryFilter() {
     getAllCategory()
       .then((res) => setCategories(res))
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   if (categories.length === 0) return <></>;
   return (
